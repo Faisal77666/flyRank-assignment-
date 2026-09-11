@@ -1,8 +1,11 @@
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const openapiSpec = require("./openapi.json");
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapiSpec));
 
 // In-memory "database"
 let tasks = [
