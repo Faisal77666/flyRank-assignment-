@@ -3,9 +3,17 @@ const app = express();
 const PORT = 3000;
 
 app.get("/", (req, res) => {
-  res.send("Hello, world! This is my Task API server.");
+  res.json({
+    name: "Task API",
+    version: "1.0",
+    endpoints: ["/tasks"]
+  });
+});
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
 });
 
 app.listen(PORT, () => {
-  console.log(Server running at http://localhost:${PORT});
+  console.log(`Server running at http://localhost:${PORT}`);
 });
