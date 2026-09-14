@@ -59,6 +59,22 @@ app.post("/auth/login", async (req, res) => {
     refresh_token: data.session.refresh_token,
   });
 });
+// PUBLIC route — no auth required
+app.get("/public/info", (req, res) => {
+  res.status(200).json({ message: "Welcome stranger! This info is public." });
+});
+
+// PROTECTED route — checks a token is present (not yet verified)
+app.get("/protected/profile", (req, res) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ") || authHeader.split(" ")[1] === "") {
+    return res.status(401).json({ error: "Access token required" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  res.status(200).json({ message: "Token received (not verified yet)", token });
+});
 // GET all tasks — now reads from SQLite
 // GET all tasks — now reads from Postgres
 app.get("/tasks", async (req, res) => {
